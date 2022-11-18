@@ -19,3 +19,19 @@ Add to your configuration's modules:
 ```
 idrac-6.nixosModules.idrac-6
 ```
+Example module usage:
+```
+services.idrac-6 = {
+  enable = true;
+  host = "1.1.1.1";
+  port = "5900";
+  user = "root";
+  secret = {
+    name = "idrac-6";
+    owner = "owner";
+  };
+};
+```
+Note:
+For this configuration to work, you need to add a `idrac-6` secret to sops-nix.
+The secret will then be mapped to the user's `.config` directory.
