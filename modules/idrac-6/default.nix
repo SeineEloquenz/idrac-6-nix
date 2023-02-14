@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-with lib;
-
 {
 
-  options.services.idrac-6 = {
+  options.services.idrac-6 = with lib; {
     enable = mkOption {
       type = types.bool;
       default = false;
@@ -19,25 +17,15 @@ with lib;
       type = types.str;
     };
     secret = mkOption {
-      type = types.submodule {
-        options = {
-          name = mkOption {
-            type = types.str;
-          };
-          owner = mkOption {
-            type = types.str;
-          };
-        };
-      };
+      type = types.str;
     };
   };
 
-  config = mkIf config.services.idrac-6.enable {
-    sops.secrets.${config.services.idrac-6.secret.name} = {
-      owner = config.services.idrac-6.secret.owner;
-      path = "/home/${config.services.idrac-6.secret.owner}/.config/idrac-6/pw";
+  config = lib.mkIf config.services.idrac-6.enable {
+    sops.secrets.${config.services.idrac-6.secret} = {
+      path = "/home/${config.home.username}/.config/idrac-6/pw";
     };
-    environment.systemPackages = [
+    home.packages = [
       (pkgs.callPackage ./../../idrac-6.nix {
         iDRAC = config.services.idrac-6;
       })

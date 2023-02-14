@@ -9,7 +9,7 @@
   };
 
   outputs = { self, nixpkgs, sops-nix }:{
-    nixosModules.idrac-6 = import ./modules/idrac-6;
-    nixosModules.default = self.nixosModules.idrac-6;
+    homeManagerModules.idrac-6 = import ./modules/idrac-6;
+    homeManagerModule = self.homeManagerModules.idrac-6;
   };
 }
