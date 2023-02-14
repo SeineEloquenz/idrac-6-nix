@@ -23,7 +23,7 @@ idrac-6.homeManagerModule
 ```
 Example module usage:
 ```
-services.idrac-6 = {
+programs.idrac-6 = {
   enable = true;
   host = "1.1.1.1";
   port = "5900";
