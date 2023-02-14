@@ -6,18 +6,20 @@ limitations in iDRAC.
 This flake provides a properly patched jdk for iDRAC, as well as integration with sops-nix
 for storing secrets.
 
+# Dependencies
+To use this flake you will also need to use `sops-nix` and `home-manager`.
+
 # How to use
 Add to your flake inputs:
 ```
 idrac-6 = {
   url = "github:SeineEloquenz/idrac-6-nix";
   inputs.nixpkgs.follows = "nixpkgs";
-  inputs.sops-nix.follows = "sops-nix";
 };
 ```
-Add to your configuration's modules:
+Add to your home manager modules:
 ```
-idrac-6.nixosModules.idrac-6
+idrac-6.homeManagerModule
 ```
 Example module usage:
 ```
@@ -26,10 +28,7 @@ services.idrac-6 = {
   host = "1.1.1.1";
   port = "5900";
   user = "root";
-  secret = {
-    name = "idrac-6";
-    owner = "owner";
-  };
+  secret = "idrac-6";
 };
 ```
 Note:
