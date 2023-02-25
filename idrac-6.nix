@@ -49,19 +49,25 @@ let
   };
 
 in stdenv.mkDerivation rec {
-    name = "idrac-6";
-    src = ./src;
+  name = "idrac-6";
+  src = ./src;
 
-    installPhase = ''
-      mkdir -pv $out/share $out/bin $out/lib
-      cp -r ${src}/lib $out
-      cp -r ${src}/share $out
+  installPhase = ''
+    mkdir -pv $out/share $out/bin $out/lib
+    cp -r ${src}/lib $out
+    cp -r ${src}/share $out
 
-      cat <<EOT >> $out/bin/iDRAC
-      ${jre}/bin/java -cp $out/share/java/avctKVM.jar com.avocent.idrac.kvm.Main -Djava.security.debug=properties -Djava.library.path=$out/lib -Djava.security.properties==$out/share/java/java.security ip=${iDRAC.host} kmport=${iDRAC.port} vport=${iDRAC.port} user=${iDRAC.user} passwd="\$(< ~/.config/idrac-6/pw)" apcp=1 version=2 vmprivilege=true "helpurl=https://${iDRAC.host}:443/help/contents.html"
-      EOT
+    cat <<EOT >> $out/bin/iDRAC
+    ${jre}/bin/java -cp $out/share/java/avctKVM.jar com.avocent.idrac.kvm.Main -Djava.security.debug=properties -Djava.library.path=$out/lib -Djava.security.properties==$out/share/java/java.security ip=${iDRAC.host} kmport=${iDRAC.port} vport=${iDRAC.port} user=${iDRAC.user} passwd="\$(< ~/.config/idrac-6/pw)" apcp=1 version=2 vmprivilege=true "helpurl=https://${iDRAC.host}:443/help/contents.html"
+    EOT
 
-      chmod +x $out/bin/iDRAC
-      ln -s ${desktopItem}/share/applications $out/share/applications
-    '';
-  }
+    chmod +x $out/bin/iDRAC
+    ln -s ${desktopItem}/share/applications $out/share/applications
+  '';
+
+  meta = with lib; {
+    description = "Virtual Console client for iDRAC 6 Dell Management Controllers";
+    homepage = "https://github.com/vinceliuice/Orchis-theme";
+    platforms = platforms.linux;
+  };
+}
