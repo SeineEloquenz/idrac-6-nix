@@ -31,6 +31,13 @@ let
       fontconfig
     ];
 
+    # Adapation for https://github.com/NixOS/nixpkgs/pull/209870;
+    # something similar will go upstream in nixpkgs for all
+    # autoPatchelfHook users.  When it does, this can be dropped.
+    preFixup = lib.optionalString (stdenv?cc.cc.libgcc) ''
+      addAutoPatchelfSearchPath ${stdenv.cc.cc.libgcc}/lib
+    '';
+
     installPhase = ''
       mkdir -p $out/jre/lib/fonts
       cp -r $src/* $out

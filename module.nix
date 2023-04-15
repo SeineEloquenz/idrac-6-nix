@@ -26,7 +26,7 @@
       path = "/home/${config.home.username}/.config/idrac-6/pw";
     };
     home.packages = [
-      (pkgs.callPackage ./../../idrac-6.nix {
+      (pkgs.callPackage ./package.nix {
         iDRAC = config.programs.idrac-6;
       })
     ];
