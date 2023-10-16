@@ -25,12 +25,16 @@ Example module usage:
 ```
 programs.idrac-6 = {
   enable = true;
-  host = "1.1.1.1";
-  port = "5900";
-  user = "root";
-  secret = "idrac-6";
+  hosts = [
+    {
+      host = "1.1.1.1";
+      port = "5900";
+      user = "root";
+      secret = "host1";
+    }
+  ];
 };
 ```
 Note:
-For this configuration to work, you need to add a `idrac-6` secret to sops-nix.
+For this configuration to work, you need to add a `host1` secret to sops-nix.
 The secret will then be mapped to the user's `.config` directory.
